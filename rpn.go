@@ -1,24 +1,30 @@
 package rpn
 
 type Stack struct {
-	a [100]float64
+	a []float64
 	i int
 }
 
+func NewStack() *Stack {
+	return &Stack{
+		make([]float64, 0, 100),
+		-1,
+	}
+}
+
 func (s *Stack) Pop() float64 {
-	if s.i == 0 {
+	if s.i == -1 {
 		panic("empty stack")
 	}
-	defer func() { s.i-- }()
-	return s.a[s.i]
+	e := s.a[s.i]
+	s.a = s.a[:s.i]
+	s.i--
+	return e
 }
 
 func (s *Stack) Push(e float64) {
-	if s.i == 100 {
-		panic("stack overflow")
-	}
 	s.i++
-	s.a[s.i] = e
+	s.a = append(s.a, e)
 }
 
 type Operation func(*Stack)
@@ -27,8 +33,4 @@ func (s *Stack) Apply(chain ...Operation) {
 	for _, operation := range chain {
 		operation(s)
 	}
-}
-
-func Sum(s *Stack) {
-	s.Push(s.Pop() + s.Pop())
 }
