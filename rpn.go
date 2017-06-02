@@ -1,8 +1,8 @@
 package rpn
 
 type Stack struct {
-	a []float64
-	i int
+	Contents []float64
+	Len      int
 }
 
 func NewStack() *Stack {
@@ -13,18 +13,18 @@ func NewStack() *Stack {
 }
 
 func (s *Stack) Pop() float64 {
-	if s.i == -1 {
+	if s.Len == -1 {
 		panic("empty stack")
 	}
-	e := s.a[s.i]
-	s.a = s.a[:s.i]
-	s.i--
+	e := s.Contents[s.Len]
+	s.Contents = s.Contents[:s.Len]
+	s.Len--
 	return e
 }
 
 func (s *Stack) Push(e float64) {
-	s.i++
-	s.a = append(s.a, e)
+	s.Len++
+	s.Contents = append(s.Contents, e)
 }
 
 type Operation func(*Stack)

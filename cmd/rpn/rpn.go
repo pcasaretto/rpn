@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -10,7 +11,7 @@ import (
 )
 
 func main() {
-	stack := &rpn.Stack{}
+	stack := rpn.NewStack()
 	scanner := bufio.NewScanner(os.Stdout)
 	// Set the split function for the scanning operation.
 	scanner.Split(bufio.ScanWords)
@@ -25,7 +26,7 @@ func main() {
 			}
 			stack.Push(f)
 		}
-		fmt.Println(stack)
+		log.Println(stack.Contents)
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading input:", err)
